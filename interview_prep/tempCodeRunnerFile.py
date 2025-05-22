@@ -2,26 +2,23 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
-from sentence_transformers import SentenceTransformer, util
-import pandas as pd
 
-# Initialize Flask app and configure it
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Flask-Login manager setup
+# Flask-Login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# User class for Flask-Login
+# User class
 class User(UserMixin):
     def __init__(self, id_, username, password):
         self.id = id_
         self.username = username
         self.password = password
 
-# Load user callback for Flask-Login
+# Load user callback
 @login_manager.user_loader
 def load_user(user_id):
     conn = sqlite3.connect('database.db')
@@ -33,24 +30,29 @@ def load_user(user_id):
         return User(id_=row[0], username=row[1], password=row[2])
     return None
 
-# Initialize the database
+# Create users table
 def init_db():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    cur.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL)''')
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )
+    ''')
     conn.commit()
     conn.close()
 
-# Load the dataset and model
-url = "https://raw.githubusercontent.com/ThapaUtsav/project6/main/Software%20Questions.csv"
-data = pd.read_csv(url, encoding='ISO-8859-1')
-data.columns = data.columns.str.strip()  # Remove whitespace
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
-# Route for the homepage
+# Home route
 @app.route('/')
 def home():
     return redirect(url_for('login'))
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db', timeout=10)  # wait 10 seconds if locked
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # Register route
 @app.route('/register', methods=['GET', 'POST'])
@@ -59,7 +61,7 @@ def register():
         username = request.form['username']
         password = generate_password_hash(request.form['password'])
 
-        conn = sqlite3.connect('database.db')
+        conn = get_db_connection()
         cursor = conn.cursor()
         try:
             cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
@@ -73,6 +75,7 @@ def register():
         flash("Registration successful. Please login.", "success")
         return redirect('/login')
     return render_template('register.html')
+
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -93,39 +96,12 @@ def login():
     return render_template('login.html')
 
 # Dashboard (protected)
-# Inside your dashboard route
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    # Passing the questions data to the template
-    questions = data['Question'].tolist()  # Get the list of questions from the DataFrame
+    return render_template('dashboard.html', username=current_user.username)
 
-    if request.method == 'POST':
-        question = request.form['question']
-        user_answer = request.form['answer']
-
-        # Find the correct answer
-        reference_answer = data[data['Question'] == question]['Answer'].values[0]
-
-        # Calculate similarity score using SBERT model
-        embeddings = model.encode([reference_answer, user_answer], convert_to_tensor=True)
-        score = util.pytorch_cos_sim(embeddings[0], embeddings[1]).item()
-
-        # Provide feedback based on the score
-        if score > 0.85:
-            feedback = "✅ Excellent answer! You covered all key points."
-        elif score > 0.70:
-            feedback = "👍 Good job. Consider adding a bit more detail or structure."
-        elif score > 0.50:
-            feedback = "⚠️ Decent start, but you missed some key parts."
-        else:
-            feedback = "❌ The answer lacks core concepts. Review the topic and try again."
-
-        return render_template('dashboard.html', username=current_user.username, score=score, feedback=feedback, question=question, answer=user_answer, questions=questions)
-
-    return render_template('dashboard.html', username=current_user.username, questions=questions)
-
-# Logout route
+# Logout
 @app.route('/logout')
 @login_required
 def logout():
@@ -134,5 +110,5 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    init_db()
+    init_db()  # Make sure the DB is ready
     app.run(debug=True)
