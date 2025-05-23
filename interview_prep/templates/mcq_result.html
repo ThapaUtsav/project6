@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}MCQ Test Result{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('select_test') }}" class="btn btn-secondary">← Go Back to Test Selection</a>
+  <h2>MCQ Test Results</h2>
+  <p>You answered {{ total_answered }} questions.</p>
+  <p>Correct Answers: {{ correct_count }}</p>
+  <p>Your Score: {{ score }}%</p>
+  <a href="{{ url_for('mcq_test') }}" class="btn btn-primary">Try Again</a>
+{% endblock %}

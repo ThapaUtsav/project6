@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}MCQ Test - Page {{ page }}{% endblock %}
+
+{% block content %}<a href="{{ url_for('select_test') }}" class="btn btn-secondary">← Go Back to Test Selection</a>
+<a></a>
+<h2 class="mb-4">MCQ Test - Page {{ page }} of {{ total_pages }}</h2>
+
+
+<form method="POST">
+  {% for question in questions %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>Q{{ start_index + loop.index0 + 1 }}:</strong> {{ question['Question'] }}</p>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="answer-{{ start_index + loop.index0 }}" id="answer-{{ start_index + loop.index0 }}-A" value="A"
+               {% if answers.get((start_index + loop.index0) | string) == 'A' %} checked {% endif %}>
+        <label class="form-check-label" for="answer-{{ start_index + loop.index0 }}-A">A. {{ question['OptionA'] }}</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="answer-{{ start_index + loop.index0 }}" id="answer-{{ start_index + loop.index0 }}-B" value="B"
+               {% if answers.get((start_index + loop.index0) | string) == 'B' %} checked {% endif %}>
+        <label class="form-check-label" for="answer-{{ start_index + loop.index0 }}-B">B. {{ question['OptionB'] }}</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="answer-{{ start_index + loop.index0 }}" id="answer-{{ start_index + loop.index0 }}-C" value="C"
+               {% if answers.get((start_index + loop.index0) | string) == 'C' %} checked {% endif %}>
+        <label class="form-check-label" for="answer-{{ start_index + loop.index0 }}-C">C. {{ question['OptionC'] }}</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="answer-{{ start_index + loop.index0 }}" id="answer-{{ start_index + loop.index0 }}-D" value="D"
+               {% if answers.get((start_index + loop.index0) | string) == 'D' %} checked {% endif %}>
+        <label class="form-check-label" for="answer-{{ start_index + loop.index0 }}-D">D. {{ question['OptionD'] }}</label>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="d-flex justify-content-between">
+    {% if page > 1 %}
+      <button type="submit" name="prev" class="btn btn-secondary">&laquo; Previous</button>
+    {% else %}
+      <div></div>
+    {% endif %}
+
+    {% if page < total_pages %}
+      <button type="submit" name="next" class="btn btn-primary">Next &raquo;</button>
+    {% else %}
+      <button type="submit" name="submit" class="btn btn-success">Submit</button>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

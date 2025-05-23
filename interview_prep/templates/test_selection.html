@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="text-center mb-4">
+    <h2>Welcome, {{ session['username'] }}!</h2>
+    <p class="text-muted">Your personalized interview preparation starts here.</p>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- MCQ Test -->
+    <div class="col-md-6">
+      <div class="card text-white bg-primary h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title">Take MCQ Test</h5>
+          <p class="card-text">Evaluate your knowledge multiple choice test.</p>
+          <a href="/mcq_test" class="btn btn-light mt-3">Start MCQ Test</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Descriptive Test -->
+    <div class="col-md-6">
+      <div class="card text-white bg-dark h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title">Descriptive Test</h5>
+          <p class="card-text">Answer open-ended questions and receive AIfeedback.</p>
+          <a href="/dashboard" class="btn btn-light mt-3">Start Descriptive Test</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CV Analyzer -->
+    <div class="col-md-6">
+      <div class="card text-white bg-success h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title">Q&A</h5>
+          <p class="card-text">Question and answer for studying.</p>
+          <a href="/cv_analyzer" class="btn btn-light mt-3">Analyze CV</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Speech Interview -->
+    <div class="col-md-6">
+      <div class="card text-white bg-info h-100 shadow-sm">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title">Speech Interview</h5>
+          <p class="card-text">Practice your interview speaking skills with AI feedback.</p>
+          <a href="/speech_interview" class="btn btn-light mt-3">Start Speech Interview</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="text-center mt-5">
+  <a href="/logout" class="btn btn-danger btn-lg">Logout</a>
+</div>
+{% endblock %}
