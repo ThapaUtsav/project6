@@ -1,30 +1,31 @@
-import warnings
+import re
 import os
 import random
+import sqlite3
+from datetime import datetime
 import pandas as pd
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-import sqlite3
 from sentence_transformers import SentenceTransformer, InputExample, losses, util
 from torch.utils.data import DataLoader
+from functools import wraps
 
-warnings.simplefilter(action='ignore', category=FutureWarning)
 os.environ["WANDB_DISABLED"] = "true"
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Flask-Login setup
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 class User(UserMixin):
-    def __init__(self, id_, username, password):
+    def __init__(self, id_, username, password, is_admin=False):
         self.id = id_
         self.username = username
         self.password = password
+        self.is_admin = is_admin
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -34,99 +35,108 @@ def load_user(user_id):
     row = cur.fetchone()
     conn.close()
     if row:
-        return User(id_=row[0], username=row[1], password=row[2])
+        return User(id_=row[0], username=row[1], password=row[2], is_admin=bool(row[3]))
     return None
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or not current_user.is_admin:
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
 
 def init_db():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     cur.execute('''CREATE TABLE IF NOT EXISTS users 
-                   (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL)''')
+                   (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, is_admin INTEGER DEFAULT 0)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS user_answers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            question TEXT,
+            submitted_answer TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )''')
+
+    cur.execute("SELECT * FROM users WHERE username = 'admin'")
+    if not cur.fetchone():
+        hashed_pw = generate_password_hash('password')
+        cur.execute("INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)", ('admin', hashed_pw, 1))
+
     conn.commit()
     conn.close()
 
 init_db()
 
-# Load descriptive questions dataset
 desc_url = "https://raw.githubusercontent.com/ThapaUtsav/project6/main/Software%20Questions.csv"
 desc_data = pd.read_csv(desc_url, encoding='ISO-8859-1', engine='python', on_bad_lines='skip')
 desc_data.columns = desc_data.columns.str.strip()
 
-# Load MCQ dataset and fix columns
 mcq_url = "https://raw.githubusercontent.com/ThapaUtsav/project6/main/MCQ.csv"
-mcq_data = pd.read_csv(mcq_url, on_bad_lines='skip')  
+mcq_data = pd.read_csv(mcq_url, on_bad_lines='skip')
 mcq_data.columns = mcq_data.columns.str.strip()
-mcq_questions = mcq_data.to_dict(orient='records')
-
 mcq_questions = mcq_data.to_dict(orient='records')
 
 QUESTIONS_PER_PAGE = 5
 
-# Load and train SBERT model for descriptive answers (kept from your original code)
 model = SentenceTransformer('all-MiniLM-L6-v2')
 train_data = [InputExample(texts=[row['Question'], row['Answer']], label=1.0) for _, row in desc_data.iterrows()]
 train_dataloader = DataLoader(train_data, batch_size=8)
 train_loss = losses.CosineSimilarityLoss(model)
 model.fit(train_objectives=[(train_dataloader, train_loss)], epochs=1, warmup_steps=10)
 
-def give_feedback(score, answer, reference_answer):
-    similarity_percentage = int(score * 100)
-    if similarity_percentage > 85:
-        feedback = "✅ Excellent answer! You covered all key points, and the structure is perfect. Keep it up!"
-    elif similarity_percentage > 70:
-        feedback = "👍 Good job. Consider adding a bit more detail or elaborating on some key points."
-    elif similarity_percentage > 50:
-        feedback = "⚠️ Decent start, but you missed some key parts. Review the question and make sure to cover all aspects."
-    elif similarity_percentage > 30:
-        feedback = "❌ The answer lacks core concepts. Review the topic and try again, focusing on important points."
-    else:
-        feedback = "❌ The answer doesn't seem to address the question well. Please review the material and try again."
-    missing_points = compare_answers(answer, reference_answer)
-    if missing_points:
-        feedback += "\n\nAdditional Notes:\n" + "\n".join(missing_points)
-    return feedback, similarity_percentage
+def save_user_answer(user_id, question, answer):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    cur.execute("INSERT INTO user_answers (user_id, question, submitted_answer, timestamp) VALUES (?, ?, ?, ?)",
+                (user_id, question, answer, datetime.now()))
+    conn.commit()
+    conn.close()
 
-def compare_answers(answer, reference_answer):
-    answer_tokens = set(answer.lower().split())
-    ref_answer_tokens = set(reference_answer.lower().split())
-    missing_points = []
-    if not answer_tokens & ref_answer_tokens:
-        missing_points.append("Key concepts or keywords are missing.")
-    else:
-        missing_points = list(ref_answer_tokens - answer_tokens)
-        if missing_points:
-            missing_points = [f"Consider adding more details on: {', '.join(missing_points)}"]
-    return missing_points
+def is_plagiarized(user_id, answer, question, threshold=0.85):
+    answer_tokens = set(re.findall(r'\w+', answer.lower()))
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    cur.execute("SELECT submitted_answer FROM user_answers WHERE user_id != ? AND question = ?", (user_id, question))
+    previous_answers = [row[0] for row in cur.fetchall()]
+    conn.close()
+    for prev in previous_answers:
+        prev_tokens = set(re.findall(r'\w+', prev.lower()))
+        union = len(answer_tokens | prev_tokens)
+        if union == 0:
+            continue
+        jaccard = len(answer_tokens & prev_tokens) / union
+        if jaccard > threshold:
+            return True, jaccard
+    return False, 0
 
-def process_answer(ref_answer, answer):
+def process_answer(ref_answer, answer, user_id, question, threshold=0.95):
     embeddings = model.encode([ref_answer, answer], convert_to_tensor=True)
     similarity_score = util.pytorch_cos_sim(embeddings[0], embeddings[1]).item()
-    
-    # Tokenize and find missing keywords
-    answer_tokens = set(answer.lower().split())
-    ref_answer_tokens = set(ref_answer.lower().split())
-    missing_keywords = ref_answer_tokens - answer_tokens
-    penalty = len(missing_keywords) / max(len(ref_answer_tokens), 1)
-    
-    # Reduce similarity score proportional to missing keywords (tune factor as needed)
-    adjusted_score = similarity_score * (1 - penalty * 0.6)  # 0.6 is a penalty weight you can tune
-    
-    feedback, similarity_percentage = give_feedback(adjusted_score, answer, ref_answer)
-    return feedback, similarity_percentage
-
-def similarity_to_stars(score):
-    percentage = score * 100
-    if percentage > 80:
-        stars = 5
-    elif percentage > 60:
-        stars = 4
-    elif percentage > 40:
-        stars = 3
-    elif percentage > 20:
-        stars = 2
+    similarity_percentage = int(similarity_score * 100)
+    if similarity_score >= threshold:
+        return ("⚠️ Your answer is too similar to the reference. Please write in your own words.", similarity_percentage, True, False)
+    ai_warning = False
+    if similarity_score >= 0.98 and len(answer.split()) > 30:
+        ai_warning = True
+    feedback = []
+    if similarity_percentage > 85:
+        feedback.append("✅ Excellent answer! Covers most or all key ideas.")
+    elif similarity_percentage > 70:
+        feedback.append("👍 Good job. Try to expand on details.")
+    elif similarity_percentage > 50:
+        feedback.append("⚠️ Decent start, but missing several key points.")
     else:
-        stars = 1
-    return stars
+        feedback.append("❌ Weak answer. Needs major improvement.")
+    if len(answer.split()) < len(ref_answer.split()) * 0.6:
+        feedback.append("📉 Your answer is too short compared to the reference. Add more detail.")
+    ref_words = set(ref_answer.lower().split())
+    ans_words = set(answer.lower().split())
+    missed = ref_words - ans_words
+    if len(missed) > 5:
+        feedback.append(f"🧠 Consider including these important words: {', '.join(list(missed)[:5])}")
+    return "\n".join(feedback), similarity_percentage, False, ai_warning
 
 @app.route('/')
 def home():
@@ -161,9 +171,12 @@ def login():
         row = cur.fetchone()
         conn.close()
         if row and check_password_hash(row[2], password):
-            user = User(id_=row[0], username=row[1], password=row[2])
+            user = User(id_=row[0], username=row[1], password=row[2], is_admin=bool(row[3]))
             login_user(user)
-            return redirect(url_for('select_test'))
+            if user.is_admin:
+                return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('select_test'))
         flash("Invalid username or password.", "danger")
     return render_template('login.html')
 
@@ -183,34 +196,32 @@ def select_test():
 def dashboard():
     categories = sorted(desc_data['Category'].unique())
     difficulties = sorted(desc_data['Difficulty'].unique())
-
     selected_category = request.form.get('category', categories[0] if categories else '')
     selected_difficulty = request.form.get('difficulty', difficulties[0] if difficulties else '')
     filtered_data = desc_data[
-        (desc_data['Category'] == selected_category) & 
+        (desc_data['Category'] == selected_category) &
         (desc_data['Difficulty'] == selected_difficulty)
     ]
-
     questions = filtered_data.to_dict(orient='records')
-
     feedback = None
     star_rating = 0
     reference_answer = ''
     answer = ''
     selected_question = ''
-
-
     if request.method == 'POST' and 'answer' in request.form:
         selected_question = request.form.get('question')
         answer = request.form.get('answer', '').strip()
-
         question_row = filtered_data[filtered_data['Question'] == selected_question]
         if not question_row.empty:
             reference_answer = question_row.iloc[0]['Answer']
-
-            feedback, similarity_percentage = process_answer(reference_answer, answer)
-            star_rating = similarity_to_stars(similarity_percentage / 100)
-
+            feedback, similarity_percentage, is_plagiarized, ai_warning = process_answer(reference_answer, answer, current_user.id, selected_question)
+            star_rating = max(1, min(5, int(similarity_percentage // 20)))
+            if is_plagiarized:
+                flash("⚠️ Your answer is too similar to the reference answer. Please rewrite in your own words.", "danger")
+            else:
+                save_user_answer(current_user.id, selected_question, answer)
+                if ai_warning:
+                    flash("⚠️ This answer may have been generated by an AI tool. Please ensure it is your own work.", "warning")
     return render_template('dashboard.html',
                            categories=categories,
                            difficulties=difficulties,
@@ -229,55 +240,52 @@ def mcq_test():
     page = int(request.args.get('page', 1))
     total_questions = len(mcq_questions)
     total_pages = (total_questions + QUESTIONS_PER_PAGE - 1) // QUESTIONS_PER_PAGE
-    
-    start_idx = (page - 1) * QUESTIONS_PER_PAGE
-    end_idx = min(start_idx + QUESTIONS_PER_PAGE, total_questions)
-    
-    questions_to_show = mcq_questions[start_idx:end_idx]
 
-    # Initialize or get answers dict from session
-    if 'answers' not in session:
-        session['answers'] = {}
+    start_index = (page - 1) * QUESTIONS_PER_PAGE
+    end_index = min(start_index + QUESTIONS_PER_PAGE, total_questions)
+    questions_to_show = mcq_questions[start_index:end_index]
 
+    answers = {}
     if request.method == 'POST':
-        # Save answers from this page
-        for i, q in enumerate(questions_to_show):
-            ans = request.form.get(f'answer-{start_idx + i}')
-            if ans:
-                session['answers'][str(start_idx + i)] = ans
-        session.modified = True
+        answers = request.form.to_dict()
 
-        if 'next' in request.form:
-            if page < total_pages:
-                return redirect(url_for('mcq_test', page=page + 1))
-        elif 'prev' in request.form:
-            if page > 1:
-                return redirect(url_for('mcq_test', page=page - 1))
-        elif 'submit' in request.form:
-            correct_count = 0
-            total_answered = 0
-            for idx_str, user_ans in session['answers'].items():
-                idx = int(idx_str)
-                correct_option = mcq_questions[idx]['CorrectOption'].strip().upper()
-                if user_ans.strip().upper() == correct_option:
-                    correct_count += 1
-                total_answered += 1
-            
-            score = 0
-            if total_answered > 0:
-                score = (correct_count / total_answered) * 100
+    return render_template('mcq_test.html',
+                           questions=questions_to_show,
+                           page=page,
+                           total_pages=total_pages,
+                           answers=answers,
+                           start_index=start_index)
 
-            session.pop('answers', None)  # Clear saved answers on submission
-            return render_template('mcq_result.html', score=round(score, 2), total_answered=total_answered, correct_count=correct_count)
+@app.route('/questions')
+@login_required
+def questions():
+    categories = sorted(desc_data['Category'].unique())
+    difficulties = sorted(desc_data['Difficulty'].unique())
+    selected_category = request.args.get('category', categories[0] if categories else '')
+    selected_difficulty = request.args.get('difficulty', difficulties[0] if difficulties else '')
+    filtered_questions = desc_data[
+        (desc_data['Category'] == selected_category) &
+        (desc_data['Difficulty'] == selected_difficulty)
+    ].to_dict(orient='records')
+    return render_template('question.html',
+                           categories=categories,
+                           difficulties=difficulties,
+                           selected_category=selected_category,
+                           selected_difficulty=selected_difficulty,
+                           filtered_questions=filtered_questions)
 
-    return render_template(
-        'mcq_test.html',
-        questions=questions_to_show,
-        page=page,
-        total_pages=total_pages,
-        start_index=start_idx,
-        answers=session['answers']
-    )
+@app.route('/admin', methods=['GET'])
+@login_required
+@admin_required
+def admin():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM users")
+    user_count = cur.fetchone()[0]
+    conn.close()
+    descriptive_count = len(desc_data)
+    mcq_count = len(mcq_questions)
+    return render_template('admin.html', user_count=user_count, descriptive_count=descriptive_count, mcq_count=mcq_count)
 
 if __name__ == '__main__':
     app.run(debug=True)

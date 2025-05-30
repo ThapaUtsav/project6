@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-header">Users</div>
+      <div class="card-body">
+        <h5 class="card-title">-- Registered Users --</h5>
+        <p class="card-text">{{ user_count }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-header">Descriptive Questions</div>
+      <div class="card-body">
+        <h5 class="card-title">-- Total Questions --</h5>
+        <p class="card-text">{{ descriptive_count }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-warning mb-3">
+      <div class="card-header">MCQ Questions</div>
+      <div class="card-body">
+        <h5 class="card-title">-- Total Questions --</h5>
+        <p class="card-text">{{ mcq_count }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-4">
+  <h4>Recent Activity</h4>
+  <p><em>No recent activity logs available.</em></p>
+</div>
+
+<div class="mb-4">
+  <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg">Logout</a>
+</div>
+{% endblock %}

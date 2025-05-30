@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Q&A Study Mode{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">📘 Q&A Study Mode</h2>
+    <p class="text-muted">Browse curated questions and answers by category and difficulty.</p>
+    <a href="{{ url_for('select_test') }}" class="btn btn-secondary">← Go Back to Test Selection</a>
+  </div>
+
+  <!-- Filter Form -->
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+      <select name="category" class="form-select">
+        {% for cat in categories %}
+          <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <select name="difficulty" class="form-select">
+        {% for diff in difficulties %}
+          <option value="{{ diff }}" {% if diff == selected_difficulty %}selected{% endif %}>{{ diff }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4 d-grid">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+
+  <!-- Q&A Cards -->
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for item in filtered_questions %}
+    <div class="col">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title">Q: {{ item.Question }}</h5>
+          <p class="card-text text-muted">
+            <strong>Category:</strong> {{ item.Category }} |
+            <strong>Difficulty:</strong> {{ item.Difficulty }}
+          </p>
+          <hr>
+          <p class="card-text"><strong>Answer:</strong><br>{{ item.Answer }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if not filtered_questions %}
+    <div class="text-center text-muted mt-4">
+      <p>No questions found for the selected filters.</p>
+    </div>
+  {% endif %}
+
+
+  
+
+{% endblock %}
