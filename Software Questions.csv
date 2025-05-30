@@ -49,7 +49,6 @@ Question Number,Question,Answer,Category,Difficulty
 48,What is database denormalization?,"Denormalization adds redundancy to optimize read performance, trading off storage and complexity.",Testing & Databases,Medium
 49,Explain SEO importance in web development.,"SEO improves site visibility in search engines to increase organic traffic.",Web & Frameworks,Medium
 50,What is a bug tracking system?,"A bug tracking system logs and manages software defects to ensure timely resolution.",Testing & Databases,Medium
-Question Number,Question,Answer,Category,Difficulty
 51,What is method overloading?,"Method overloading allows multiple methods with the same name but different parameters in the same class.",Programming Concepts,Medium
 52,Explain method overriding.,"Method overriding allows a subclass to provide a specific implementation of a method already defined in its superclass.",Programming Concepts,Medium
 53,What is the difference between a class and an object?,"A class is a blueprint for objects; an object is an instance of a class.",Programming Concepts,Easy
@@ -100,3 +99,203 @@ Question Number,Question,Answer,Category,Difficulty
 98,Describe the Observer pattern.,"The Observer pattern defines a subscription mechanism to notify multiple objects about state changes.",Programming Concepts,Medium
 99,What is the purpose of a firewall?,"A firewall filters incoming and outgoing network traffic to enforce security policies.",Web & Frameworks,Easy
 100,Explain Agile methodology.,"Agile is an iterative development process emphasizing collaboration, flexibility, and customer feedback.",Programming Concepts,Medium
+101,What is phishing?,"Phishing is a social engineering attack where attackers trick users into revealing sensitive information by pretending to be trustworthy.",Cybersecurity,Easy
+102,Explain the concept of a firewall.","A firewall monitors and controls incoming and outgoing network traffic based on security rules to protect networks.",Cybersecurity,Medium
+103,What is two-factor authentication (2FA)?,"2FA requires two types of credentials from users to increase security, typically a password and a secondary code.",Cybersecurity,Easy
+104,Define ransomware.","Ransomware is malicious software that encrypts files and demands payment to restore access.",Cybersecurity,Medium
+105,What is a zero-day vulnerability?,"A zero-day vulnerability is a software flaw unknown to the vendor, exploited before a fix is available.",Cybersecurity,Hard
+106,Explain the difference between symmetric and asymmetric encryption.","Symmetric encryption uses the same key for encryption and decryption, while asymmetric uses a key pair (public/private).",Cybersecurity,Medium
+107,What is a denial-of-service (DoS) attack?,"A DoS attack floods a system with traffic to exhaust resources, causing service disruption.",Cybersecurity,Medium
+108,Describe a man-in-the-middle (MITM) attack.","An MITM attack intercepts communication between two parties to eavesdrop or alter information.",Cybersecurity,Hard
+109,What is social engineering in cybersecurity?,"Social engineering manipulates people into divulging confidential info or performing actions.",Cybersecurity,Easy
+110,Explain the principle of least privilege.","Users or programs should have only the minimum access needed to perform their tasks to reduce risk.",Cybersecurity,Medium
+111,What is encryption?,"Encryption converts data into a coded form to prevent unauthorized access.",Cybersecurity,Easy
+112,What is a VPN and why is it used?,"A VPN creates a secure encrypted connection over the internet to protect privacy and data.",Cybersecurity,Medium
+113,Define malware.","Malware is malicious software designed to damage or gain unauthorized access to systems.",Cybersecurity,Easy
+114,What are the types of malware?,"Common types include viruses, worms, trojans, ransomware, spyware, and adware.",Cybersecurity,Medium
+115,What is a digital certificate?,"A digital certificate verifies the ownership of a public key and establishes trust.",Cybersecurity,Hard
+116,Explain the difference between HTTP and HTTPS.","HTTPS is HTTP secured with SSL/TLS encryption, providing data confidentiality and integrity.",Cybersecurity,Easy
+117,What is SQL injection?,"An attack where malicious SQL code is inserted into input fields to manipulate a database.",Cybersecurity,Hard
+118,What is a botnet?,"A network of infected computers controlled by an attacker to perform coordinated attacks.",Cybersecurity,Medium
+119,Define brute force attack.","An attack trying all possible passwords or keys to gain unauthorized access.",Cybersecurity,Medium
+120,What is a security patch?,"A security patch fixes vulnerabilities in software to protect against exploits.",Cybersecurity,Easy
+121,What is penetration testing?,"Testing systems by simulating attacks to find security weaknesses.",Cybersecurity,Medium
+122,Explain what a security policy is.","A set of rules and practices that define how to protect an organization's IT assets.",Cybersecurity,Easy
+123,What is a honeypot?,"A decoy system set up to attract attackers and study their methods.",Cybersecurity,Hard
+124,What does CIA stand for in cybersecurity?,"Confidentiality, Integrity, and Availability — core principles of information security.",Cybersecurity,Easy
+125,What is session hijacking?,"An attack where an attacker takes over a valid user session to gain unauthorized access.",Cybersecurity,Hard
+126,Explain what a rootkit is.","Malicious software that hides its presence and provides unauthorized root access.",Cybersecurity,Hard
+127,What is a secure socket layer (SSL)?,"SSL is a protocol for establishing encrypted links between web servers and browsers.",Cybersecurity,Medium
+128,Define data breach.","An incident where sensitive data is accessed or disclosed without authorization.",Cybersecurity,Easy
+129,What is multi-factor authentication (MFA)?,"A security system requiring more than one method of authentication to verify identity.",Cybersecurity,Medium
+130,Explain cross-site scripting (XSS).","An attack where malicious scripts are injected into trusted websites viewed by others.",Cybersecurity,Hard
+131,What is a security audit?,"A systematic evaluation of an organization's security policies and controls.",Cybersecurity,Medium
+132,Define access control.","Techniques and policies that restrict access to systems and data to authorized users.",Cybersecurity,Easy
+133,What is a public key infrastructure (PKI)?,"A framework for managing digital certificates and public-key encryption.",Cybersecurity,Hard
+134,Explain difference between white hat, black hat, and grey hat hackers.","White hats ethically test security; black hats exploit vulnerabilities; grey hats fall between.",Cybersecurity,Medium
+135,What is social engineering?,"Techniques manipulating people into giving up confidential info or access.",Cybersecurity,Easy
+136,What is an intrusion detection system (IDS)?,"A system that monitors network traffic for suspicious activities and alerts administrators.",Cybersecurity,Medium
+137,What is a distributed denial-of-service (DDoS) attack?,"A DoS attack launched from many compromised systems simultaneously to overwhelm a target.",Cybersecurity,Hard
+138,What is the difference between vulnerability and exploit?,"A vulnerability is a weakness; an exploit is code that takes advantage of it.",Cybersecurity,Medium
+139,Explain what a sandbox is.","An isolated environment used to safely run suspicious code or applications.",Cybersecurity,Medium
+140,What is data encryption at rest?,"Encrypting data stored on disks or devices to protect it from unauthorized access.",Cybersecurity,Medium
+141,What is keylogger?,"A program or hardware device that records keystrokes to capture sensitive information.",Cybersecurity,Hard
+142,Define patch management.","The process of distributing and applying updates to software to fix vulnerabilities.",Cybersecurity,Medium
+143,What is spear phishing?,"A targeted phishing attack aimed at specific individuals or organizations.",Cybersecurity,Hard
+144,What is cyber threat intelligence?,"Information about threats to help organizations prepare and respond to cyber attacks.",Cybersecurity,Medium
+145,Explain the difference between a virus and a worm.","A virus attaches to files and requires user action; a worm spreads automatically.",Cybersecurity,Medium
+146,What is network segmentation?,"Dividing a network into smaller parts to improve security and performance.",Cybersecurity,Medium
+147,Define cryptography.","The science of securing information through encoding and decoding data.",Cybersecurity,Easy
+148,What is brute force attack protection?,"Techniques like rate limiting and CAPTCHAs to prevent repeated unauthorized access attempts.",Cybersecurity,Medium
+149,What is a security token?,"A physical or digital device used to prove identity electronically.",Cybersecurity,Medium
+150,Explain what a digital signature is.","A cryptographic technique to verify the authenticity and integrity of digital data.",Cybersecurity,Hard
+151,What is a mantrap in physical security?,"A security device that controls access by requiring two separate entries, trapping intruders.",Cybersecurity,Hard
+152,What is a kill chain in cybersecurity?,"The sequence of stages in a cyber attack from reconnaissance to exfiltration.",Cybersecurity,Medium
+153,Define network sniffing.","Capturing and analyzing data packets traveling through a network.",Cybersecurity,Medium
+154,What is the purpose of a proxy server?,"To act as an intermediary between clients and servers, often for anonymity or filtering.",Cybersecurity,Medium
+155,What is brute force attack?,"An attack method where an attacker tries all possible keys or passwords.",Cybersecurity,Easy
+156,What is the difference between IDS and IPS?,"IDS detects attacks and alerts; IPS detects and blocks attacks.",Cybersecurity,Medium
+157,What is a vulnerability scanner?,"A tool that scans systems to identify known vulnerabilities.",Cybersecurity,Medium
+158,Explain what a backdoor is.","A hidden method to bypass security and access a system.",Cybersecurity,Hard
+159,What is risk assessment?,"The process of identifying and evaluating risks to an organization's assets.",Cybersecurity,Medium
+160,What is cyber hygiene?,"Practices to maintain system health and reduce security risks.",Cybersecurity,Easy
+161,What is a whitelist?,"A list of approved entities allowed access, blocking all others.",Cybersecurity,Medium
+162,Define blacklisting.","Blocking access to known malicious entities.",Cybersecurity,Medium
+163,What is encryption key management?,"The process of generating, storing, and protecting encryption keys.",Cybersecurity,Hard
+164,Explain ransomware-as-a-service (RaaS).","A business model where ransomware is offered as a service to criminals.",Cybersecurity,Hard
+165,What is data exfiltration?,"Unauthorized transfer of data from a system.",Cybersecurity,Medium
+166,What is an advanced persistent threat (APT)?,"A prolonged, targeted cyber attack typically orchestrated by well-funded groups.",Cybersecurity,Hard
+167,Define a digital footprint.","The trail of data left by users during online activity.",Cybersecurity,Easy
+168,What is threat hunting?,"Proactively searching for threats that evade automated security systems.",Cybersecurity,Hard
+169,What is a cryptojacker?,"Malware that hijacks a computer's resources to mine cryptocurrency.",Cybersecurity,Medium
+170,What is tokenization?,"Replacing sensitive data with non-sensitive equivalents called tokens.",Cybersecurity,Medium
+171,Explain biometric authentication.","Using biological traits like fingerprints or retina scans to verify identity.",Cybersecurity,Medium
+172,What is a security information and event management (SIEM) system?,"A system that collects, analyzes, and reports on security data from multiple sources.",Cybersecurity,Hard
+173,What is a root certificate?,"A trusted certificate that anchors the chain of trust in a PKI.",Cybersecurity,Hard
+174,What is data masking?,"Hiding sensitive data by obscuring it in non-production environments.",Cybersecurity,Medium
+175,What is a worm?,"Self-replicating malware that spreads across networks without user action.",Cybersecurity,Medium
+176,Explain the concept of defense in depth.","Using multiple layers of security controls to protect assets.",Cybersecurity,Medium
+177,What is a keylogger?,"Software or hardware that records keystrokes to steal data.",Cybersecurity,Hard
+178,What is threat modeling?,"A process to identify, prioritize, and address potential threats to a system.",Cybersecurity,Medium
+179,What is a Trojan horse?,"Malware disguised as legitimate software to trick users into installing it.",Cybersecurity,Medium
+180,Define a botnet.","A collection of compromised computers controlled remotely by attackers.",Cybersecurity,Medium
+181,What is endpoint security?,"Protection of end-user devices like laptops and phones from cyber threats.",Cybersecurity,Medium
+182,What is identity theft?,"Stealing someone's personal information to impersonate them.",Cybersecurity,Easy
+183,Explain the role of antivirus software.","Software designed to detect and remove malware.",Cybersecurity,Easy
+184,What is a sandbox environment?,"An isolated testing environment for suspicious code.",Cybersecurity,Medium
+185,What is a certificate authority (CA)?,"An entity that issues digital certificates to verify identities.",Cybersecurity,Hard
+186,What is the purpose of patching?,"Fixing software bugs and vulnerabilities to improve security.",Cybersecurity,Easy
+187,What is the principle of fail-safe defaults?,"Systems should deny access by default, granting only explicitly authorized actions.",Cybersecurity,Medium
+188,Define spyware.","Software that secretly gathers user information without consent.",Cybersecurity,Hard
+189,What is the difference between authentication and authorization?,"Authentication verifies identity; authorization grants access.",Cybersecurity,Easy
+190,What is a man-in-the-middle (MITM) attack?,"An attack where the attacker secretly intercepts and possibly alters communication between two parties without their knowledge.",Cybersecurity,Hard
+191,What is a replay attack?,"An attack where valid data transmission is maliciously repeated or delayed to gain unauthorized access.",Cybersecurity,Hard
+192,What is a security token?,"A physical or virtual device that grants access to systems or services by proving identity.",Cybersecurity,Medium
+193,Define intrusion prevention system (IPS).,"A system that monitors network or system activities and actively blocks potential threats.",Cybersecurity,Medium
+194,What is an SSL certificate?,"A digital certificate that authenticates a website’s identity and enables encrypted connections.",Cybersecurity,Medium
+195,What is a cyber kill chain?,"A series of stages that describe the progression of a cyberattack from reconnaissance to objectives.",Cybersecurity,Hard
+196,Explain the concept of whaling attack.","A type of phishing targeting high-profile executives or important individuals.",Cybersecurity,Hard
+197,What is the role of a security operations center (SOC)?,"A centralized team responsible for monitoring and responding to security incidents.",Cybersecurity,Medium
+198,Define ransomware payment.","The amount of money demanded by attackers to decrypt or restore access to data.",Cybersecurity,Easy
+199,What is a digital forensic investigation?,"The process of collecting, analyzing, and preserving electronic data for legal evidence.",Cybersecurity,Hard
+200,What is encryption at transit?,"Encrypting data while it moves across networks to protect from interception.",Cybersecurity,Medium
+201,What is a mantrap?,"A physical security mechanism that controls access by trapping individuals between two doors.",Cybersecurity,Hard
+202,Explain what a brute force defense is.","Techniques such as account lockout, CAPTCHAs, and rate limiting to prevent brute force attacks.",Cybersecurity,Medium
+203,What is a supply chain attack?,"An attack targeting less-secure elements in a supply chain to compromise a final target.",Cybersecurity,Hard
+204,Define spear phishing.","Highly targeted phishing attacks aimed at specific individuals or organizations.",Cybersecurity,Hard
+205,What is cross-site request forgery (CSRF)?,"An attack that tricks users into submitting unwanted actions on a web application where they're authenticated.",Cybersecurity,Hard
+206,What is a root certificate?,"A trusted certificate at the top of a certificate hierarchy used to validate other certificates.",Cybersecurity,Hard
+207,What is a public key?,"A cryptographic key that is shared publicly and used to encrypt data or verify digital signatures.",Cybersecurity,Medium
+208,Explain data loss prevention (DLP).,"Technologies and policies designed to prevent sensitive data from leaving an organization.",Cybersecurity,Medium
+209,What is multifactor authentication (MFA)?,"Using two or more authentication methods such as password, token, or biometrics to verify identity.",Cybersecurity,Easy
+210,What is the purpose of a honeytoken?,"A fake data artifact designed to detect unauthorized access or data leaks.",Cybersecurity,Hard
+211,Explain the concept of a security baseline.","A set of minimum security configurations required for systems to be considered secure.",Cybersecurity,Medium
+212,What is cryptanalysis?,"The study and practice of breaking cryptographic systems to reveal encrypted information.",Cybersecurity,Hard
+213,Define phishing kit.","A pre-packaged set of tools and templates to create phishing websites or campaigns.",Cybersecurity,Medium
+214,What is a DMZ in network security?,"A demilitarized zone, a separate network segment that exposes services to an untrusted network safely.",Cybersecurity,Medium
+215,What is a security incident?,"An event that violates an organization's security policies or threatens data integrity.",Cybersecurity,Easy
+216,Explain what a backdoor is in malware.","Hidden methods for attackers to bypass normal authentication to access systems.",Cybersecurity,Hard
+217,What is cyber espionage?,"The use of cyber attacks to steal confidential or sensitive information for strategic advantage.",Cybersecurity,Hard
+218,What is tokenization in data security?,"Replacing sensitive data with non-sensitive substitutes called tokens.",Cybersecurity,Medium
+219,Define firewall.","A security device or software that filters network traffic based on security rules.",Cybersecurity,Easy
+220,What is a logic bomb?,"Malicious code triggered by specific conditions or events in a system.",Cybersecurity,Hard
+221,What is SSL stripping?,"An attack that downgrades HTTPS connections to HTTP to intercept data.",Cybersecurity,Hard
+222,Define ethical hacking.","Authorized attempts to find and fix security vulnerabilities.",Cybersecurity,Medium
+223,What is a vulnerability assessment?,"A systematic review of security weaknesses in a system.",Cybersecurity,Medium
+224,What is a digital signature?,"A cryptographic method to verify the authenticity and integrity of digital documents.",Cybersecurity,Hard
+225,Explain the difference between spyware and adware.","Spyware covertly gathers user data; adware displays unwanted advertisements.",Cybersecurity,Medium
+226,What is data integrity?,"Ensuring data is accurate, consistent, and has not been tampered with.",Cybersecurity,Easy
+227,What is a kill switch in cybersecurity?,"A mechanism to remotely disable or shut down a device or software during a security breach.",Cybersecurity,Medium
+228,What is a whitelist?,"A list of approved entities or software allowed to access resources.",Cybersecurity,Easy
+229,What is a brute force attack?,"Attempting all possible passwords or keys until the correct one is found.",Cybersecurity,Easy
+230,Define social engineering attack.","Manipulating individuals to divulge confidential information or perform unauthorized actions.",Cybersecurity,Easy
+231,What is a password manager?,"Software that securely stores and manages user passwords.",Cybersecurity,Easy
+232,What is cross-site scripting (XSS)?,"Injecting malicious scripts into trusted websites to execute on users' browsers.",Cybersecurity,Hard
+233,What is penetration testing?,"Simulated cyber attacks to evaluate system security.",Cybersecurity,Medium
+234,What is an advanced persistent threat (APT)?,"A long-term targeted attack by skilled attackers to steal information.",Cybersecurity,Hard
+235,What is network segmentation?,"Dividing a network into parts to improve security and performance.",Cybersecurity,Medium
+236,Define botnet.","A network of compromised computers used to launch attacks.",Cybersecurity,Medium
+237,What is data encryption?,"Transforming data into unreadable form to prevent unauthorized access.",Cybersecurity,Easy
+238,Explain the principle of least privilege.","Granting users only the access necessary to perform their duties.",Cybersecurity,Medium
+239,What is phishing?,"Fraudulent attempts to obtain sensitive information by impersonating trustworthy entities.",Cybersecurity,Easy
+240,What is malware?,"Software designed to disrupt, damage, or gain unauthorized access to computer systems.",Cybersecurity,Easy
+241,What is a denial of service (DoS) attack?,"An attempt to make a system unavailable by overwhelming it with traffic.",Cybersecurity,Medium
+242,What is a distributed denial of service (DDoS) attack?,"A DoS attack using many compromised systems simultaneously.",Cybersecurity,Hard
+243,What is ransomware?,"Malware that encrypts data and demands payment for its release.",Cybersecurity,Medium
+244,What is two-factor authentication (2FA)?,"Authentication requiring two different credentials.",Cybersecurity,Easy
+245,What is a firewall rule?,"A condition set to allow or block specific types of network traffic.",Cybersecurity,Medium
+246,What is patch management?,"Applying updates to software to fix vulnerabilities.",Cybersecurity,Medium
+247,What is identity theft?,"Stealing personal information to impersonate someone.",Cybersecurity,Easy
+248,What is a certificate authority (CA)?,"An organization that issues digital certificates to verify identities.",Cybersecurity,Hard
+249,What is a VPN?,"A virtual private network that encrypts internet traffic for privacy.",Cybersecurity,Medium
+250,What is a zero-day exploit?,"An attack on a previously unknown software vulnerability.",Cybersecurity,Hard
+251,What is encryption key management?,"Handling the creation, storage, and distribution of cryptographic keys.",Cybersecurity,Hard
+252,What is an intrusion detection system (IDS)?,"A system that monitors network traffic for suspicious activity.",Cybersecurity,Medium
+253,Define cryptography.","The practice of secure communication through encoding data.",Cybersecurity,Easy
+254,What is phishing?,"A social engineering attack to steal sensitive information by impersonation.",Cybersecurity,Easy
+255,What is spear phishing?,"Targeted phishing at specific individuals.",Cybersecurity,Hard
+256,What is a man-in-the-middle (MITM) attack?,"Intercepting and altering communication between two parties.",Cybersecurity,Hard
+257,What is social engineering?,"Manipulating people to bypass security measures.",Cybersecurity,Easy
+258,What is a botnet?,"A network of infected devices used to perform cyber attacks.",Cybersecurity,Medium
+259,What is a digital certificate?,"A document proving the ownership of a public key.",Cybersecurity,Hard
+260,What is data exfiltration?,"Unauthorized transfer of data from a system.",Cybersecurity,Medium
+261,What is a logic bomb?,"Malicious code triggered by specific conditions.",Cybersecurity,Hard
+262,What is data masking?,"Hiding sensitive data by obfuscating it in non-production environments.",Cybersecurity,Medium
+263,What is a honeypot?,"A decoy system used to attract attackers and analyze their methods.",Cybersecurity,Hard
+264,What is multi-factor authentication (MFA)?,"Using multiple methods to verify user identity.",Cybersecurity,Easy
+265,What is spyware?,"Software that collects user data covertly.",Cybersecurity,Hard
+266,What is ransomware-as-a-service (RaaS)?,"Offering ransomware tools as a paid service to criminals.",Cybersecurity,Hard
+267,What is cryptojacking?,"Using a victim’s device to mine cryptocurrency without permission.",Cybersecurity,Medium
+268,What is threat hunting?,"Proactively searching for cyber threats that evade detection.",Cybersecurity,Hard
+269,What is a digital footprint?,"The data trail left by users online.",Cybersecurity,Easy
+270,What is defense in depth?,"Using multiple layers of security controls.",Cybersecurity,Medium
+271,What is a backdoor?,"A hidden method to bypass normal authentication.",Cybersecurity,Hard
+272,What is a vulnerability?,"A weakness in a system that can be exploited.",Cybersecurity,Medium
+273,What is the difference between authentication and authorization?,"Authentication verifies identity; authorization grants access.",Cybersecurity,Easy
+274,What is a password policy?,"Rules that govern the creation and management of passwords.",Cybersecurity,Easy
+275,What is a brute force attack?,"Trying all possible passwords to gain access.",Cybersecurity,Easy
+276,What is data breach?,"Unauthorized access to sensitive information.",Cybersecurity,Easy
+277,What is a digital signature?,"A cryptographic proof of authenticity.",Cybersecurity,Hard
+278,What is a security audit?,"A review of security policies and controls.",Cybersecurity,Medium
+279,What is cyber hygiene?,"Practices to maintain security and system health.",Cybersecurity,Easy
+280,What is a proxy server?,"An intermediary between clients and servers for filtering or anonymity.",Cybersecurity,Medium
+281,What is network sniffing?,"Capturing network data packets for analysis.",Cybersecurity,Medium
+282,What is a certificate revocation list (CRL)?,"A list of digital certificates that have been revoked.",Cybersecurity,Hard
+283,What is two-step verification?,"A method requiring two verification steps for access.",Cybersecurity,Easy
+284,What is malware?,"Software designed to cause harm or unauthorized actions.",Cybersecurity,Easy
+285,What is a virus?,"Malware that attaches to files and spreads.",Cybersecurity,Medium
+286,What is a worm?,"Self-replicating malware that spreads automatically.",Cybersecurity,Medium
+287,What is a Trojan horse?,"Malware disguised as legitimate software.",Cybersecurity,Medium
+288,What is patching?,"Applying updates to software for fixes.",Cybersecurity,Medium
+289,What is an endpoint?,"A device such as a computer or mobile phone connected to a network.",Cybersecurity,Easy
+290,What is a kill chain?,"The sequence of steps in a cyberattack.",Cybersecurity,Medium
+291,What is threat intelligence?,"Information on threats to help defend systems.",Cybersecurity,Medium
+292,What is social engineering?,"Manipulating people to gain unauthorized access.",Cybersecurity,Easy
+293,What is a firewall?,"A system that controls incoming and outgoing network traffic.",Cybersecurity,Easy
+294,What is encryption?,"Encoding data to prevent unauthorized access.",Cybersecurity,Easy
+295,What is a botnet?,"Network of compromised devices controlled by attackers.",Cybersecurity,Medium
+296,What is spear phishing?,"Targeted phishing attack.",Cybersecurity,Hard
+297,What is a denial of service attack?,"Overwhelming a system to deny service.",Cybersecurity,Medium
+298,What is ransomware?,"Malware demanding ransom for data release.",Cybersecurity,Medium
+299,What is multi-factor authentication?,"Using multiple authentication methods.",Cybersecurity,Easy
+300,What is a security token?,"A device or software proving identity.",Cybersecurity,Medium
