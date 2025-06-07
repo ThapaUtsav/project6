@@ -1,0 +1,42 @@
+Question,OptionA,OptionB,OptionC,OptionD,CorrectOption,Category,Difficulty
+What does the 'len()' function do in Python?,Calculates the average of a list,Returns the length of an object,Prints the object,Converts object to string,B,Python,Easy
+Which data structure uses LIFO?,Queue,Stack,Array,List,B,Data Structures,Easy
+Which keyword is used to define a function in Python?,def,func,function,define,A,Python,Easy
+Which SQL statement is used to fetch data?,INSERT,DELETE,SELECT,UPDATE,C,SQL,Easy
+What is the main feature of OOP?,Recursion,Functions,Classes and Objects,Data types,C,OOP,Medium
+Which HTTP method is used to retrieve data?,POST,GET,PUT,DELETE,B,Web,Easy
+Which sorting algorithm has the best average time complexity?,Bubble Sort,Selection Sort,Quick Sort,Insertion Sort,C,Algorithms,Medium
+What is the output of 3 == 3.0 in Python?,True,False,TypeError,ValueError,A,Python,Easy
+What does HTML stand for?,Hyper Text Markup Language,Hyperlinks and Text Markup Language,Home Tool Markup Language,Hyperlinking Text Management Language,A,Web,Easy
+Which programming language runs in a web browser?,Python,Java,C++,JavaScript,D,Web,Easy
+Which of the following is used to define an internal style sheet in HTML?,<style>,<link>,<script>,<css>,A,Web,Medium
+What is the default value of a Boolean variable in Java?,1,false,0,true,B,Java,Easy
+Which of the following is a valid CSS property?,text-color,background-color,font-size,text-size,C,Web,Easy
+What does SQL stand for?,Sequential Query Language,Structured Query Language,Simple Query Language,Standard Query Language,B,SQL,Easy
+Which of the following is a NoSQL database?,MySQL,MongoDB,Oracle,SQLite,B,Databases,Medium
+What is the primary function of an operating system?,Run applications,Manage hardware and software resources,Provide security,Manage user accounts,B,General,Easy
+Which of the following protocols is used to send email?,HTTP,FTP,SMTP,POP3,C,Networking,Easy
+In object-oriented programming, what is inheritance?,A way to create a new class from an existing class,A method to delete a class,A way to encapsulate data,A method to abstract data,A,OOP,Medium
+What is a primary key in a database?,A key that can be duplicated,A key that uniquely identifies a record,A key that can be used to link tables,A key that stores data,B,Databases,Easy
+Which of the following is a markup language?,Python,HTML,Java,C++,B,General,Easy
+What is the function of the 'return' statement in a function?,To stop the execution,To return a value from the function,To call another function,To print output,B,Programming,Easy
+If a product's price is increased by 20% and then decreased by 20%, what is the net change in price?,4% increase,4% decrease,No change,5% decrease,C,Math,Medium
+A train leaves a station at 3 PM traveling at 60 km/h. Another train leaves the same station at 4 PM traveling at 90 km/h. At what time will the second train catch up with the first?,5 PM,5:30 PM,6 PM,6:30 PM,C,Math,Medium
+The average of five numbers is 18. If one number is excluded, the average becomes 16. What is the excluded number?,20,22,26,26,C,Math,Medium
+If the cost price of 20 items is ₹200 and the selling price is ₹220, what is the profit percentage?,8%,10%,12%,15%,B,Math,Medium
+A person bought a shirt for ₹500 and sold it for ₹600. What is the profit percentage?,15%,20%,25%,30%,B,Math,Medium
+What is the next number in the sequence: 1, 1, 2, 3, 5, 8, ?,10,12,13,15,C,Math,Medium
+If the perimeter of a square is 64 cm, what is the length of one side?,12 cm,16 cm,18 cm,20 cm,B,Math,Medium
+A boat covers a distance of 30 km downstream in 2 hours. What is the speed of the boat in still water if the speed of the current is 5 km/h?,10 km/h,15 km/h,20 km/h,25 km/h,C,Math,Medium
+Which of the following is a valid variable name in Python?,1variable,_variable,variable1,1variable,B,Python,Easy
+What is the output of the following code: print(2 ** 3)?,6,8,9,7,B,Python,Easy
+Which method is used to add an element at the end of a list in Python?,append(),extend(),insert(),add(),A,Python,Easy
+What does the pass statement do in Python?,It passes execution rights to another user,It fails silently without doing anything,It is a null statement that does nothing,It passes the loop to start over,C,Python,Easy
+What keyword is used to define a variable that can hold multiple values?,var,val,list,tuple,D,Python,Easy
+How can you generate random numbers in Python?,random(),import random,random.random(),import random and then random.random(),D,Python,Easy
+What does the strip() method do?,Reverses a string,Removes specific characters from the beginning and the end of the string,Splits the string into a list of strings,Concatenates strings,B,Python,Easy
+How do you open a file in read mode in Python?,open("file.txt", "r"),open("file.txt", "read"),open.file("file.txt", "r"),file.open("file.txt", "r"),A,Python,Easy
+What is the output of this code snippet: print("Hello, world!".upper())?,hello, world!,HELLO, WORLD!,Hello, World!,None of the above,B,Python,Easy
+Which data type would you use to store a numeric value that does not change?,Variable,Constant,int,float,B,Python,Easy
+Which library is commonly used for data visualization in Python?,TensorFlow,Matplotlib,Scikit-learn,PyTorch,B,Python,Medium
+What does the term “CSV” stand for in the context of data handling in Python?,Comma-Separated Values,Centralized System for Values,Complex Structured Variables,Computerized Storage of Variables,A,Python,Medium

@@ -3,46 +3,173 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Admin Dashboard</h2>
+<style>
+  /* Universal Stylish Buttons */
+  .btn {
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+  }
 
-<div class="row mb-4">
-  <div class="col-md-4">
-    <div class="card text-white bg-primary mb-3">
-      <div class="card-header">Users</div>
-      <div class="card-body">
-        <h5 class="card-title">-- Registered Users --</h5>
-        <p class="card-text">{{ user_count }}</p>
+  .btn-primary {
+    background: linear-gradient(135deg, #5a9cfb, #1e62d0);
+    color: white;
+    box-shadow: 0 6px 15px rgba(30, 98, 208, 0.5);
+  }
+  .btn-primary:hover, .btn-primary:focus {
+    background: linear-gradient(135deg, #1e62d0, #5a9cfb);
+    box-shadow: 0 8px 20px rgba(30, 98, 208, 0.7);
+    transform: translateY(-3px);
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #57c27e, #249348);
+    color: white;
+    box-shadow: 0 6px 15px rgba(36, 147, 72, 0.5);
+  }
+  .btn-success:hover, .btn-success:focus {
+    background: linear-gradient(135deg, #249348, #57c27e);
+    box-shadow: 0 8px 20px rgba(36, 147, 72, 0.7);
+    transform: translateY(-3px);
+  }
+
+  .btn-warning {
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    color: #5a3700;
+    box-shadow: 0 6px 15px rgba(253, 160, 133, 0.5);
+  }
+  .btn-warning:hover, .btn-warning:focus {
+    background: linear-gradient(135deg, #fda085, #f6d365);
+    box-shadow: 0 8px 20px rgba(253, 160, 133, 0.7);
+    transform: translateY(-3px);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #f85032, #e73827);
+    color: white;
+    box-shadow: 0 6px 15px rgba(231, 56, 39, 0.5);
+  }
+  .btn-danger:hover, .btn-danger:focus {
+    background: linear-gradient(135deg, #e73827, #f85032);
+    box-shadow: 0 8px 20px rgba(231, 56, 39, 0.7);
+    transform: translateY(-3px);
+  }
+
+  .btn-outline-danger {
+    background: transparent;
+    border: 2.5px solid #e73827;
+    color: #e73827;
+    box-shadow: none;
+  }
+  .btn-outline-danger:hover, .btn-outline-danger:focus {
+    background: #e73827;
+    color: white;
+    box-shadow: 0 8px 20px rgba(231, 56, 39, 0.7);
+    transform: translateY(-3px);
+  }
+</style>
+
+<div class="container mt-4">
+
+  <h2 class="mb-4">Admin Dashboard</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-header">Users</div>
+        <div class="card-body">
+          <h5 class="card-title">-- Registered Users --</h5>
+          <p class="card-text">{{ user_count }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-header">Descriptive Questions</div>
+        <div class="card-body">
+          <h5 class="card-title">-- Total Questions --</h5>
+          <p class="card-text">{{ descriptive_count }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-header">MCQ Questions</div>
+        <div class="card-body">
+          <h5 class="card-title">-- Total Questions --</h5>
+          <p class="card-text">{{ mcq_count }}</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col-md-4">
-    <div class="card text-white bg-success mb-3">
-      <div class="card-header">Descriptive Questions</div>
-      <div class="card-body">
-        <h5 class="card-title">-- Total Questions --</h5>
-        <p class="card-text">{{ descriptive_count }}</p>
-      </div>
+  <hr>
+
+  <h3>Add New Descriptive Question</h3>
+  <form method="POST" action="{{ url_for('add_descriptive_question') }}" class="mb-5">
+    <div class="mb-3">
+      <label for="desc_category" class="form-label">Category</label>
+      <input type="text" class="form-control" id="desc_category" name="category" required>
     </div>
+    <div class="mb-3">
+      <label for="desc_difficulty" class="form-label">Difficulty</label>
+      <input type="text" class="form-control" id="desc_difficulty" name="difficulty" required>
+    </div>
+    <div class="mb-3">
+      <label for="desc_question" class="form-label">Question</label>
+      <textarea class="form-control" id="desc_question" name="question" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="desc_answer" class="form-label">Answer</label>
+      <textarea class="form-control" id="desc_answer" name="answer" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Add Descriptive Question</button>
+  </form>
+
+  <hr>
+
+  <h3>Add New MCQ Question</h3>
+  <form method="POST" action="{{ url_for('add_mcq_question') }}">
+    <div class="mb-3">
+      <label for="mcq_question" class="form-label">Question</label>
+      <textarea class="form-control" id="mcq_question" name="question" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="mcq_option_a" class="form-label">Option A</label>
+      <input type="text" class="form-control" id="mcq_option_a" name="option_a" required>
+    </div>
+    <div class="mb-3">
+      <label for="mcq_option_b" class="form-label">Option B</label>
+      <input type="text" class="form-control" id="mcq_option_b" name="option_b" required>
+    </div>
+    <div class="mb-3">
+      <label for="mcq_option_c" class="form-label">Option C</label>
+      <input type="text" class="form-control" id="mcq_option_c" name="option_c" required>
+    </div>
+    <div class="mb-3">
+      <label for="mcq_option_d" class="form-label">Option D</label>
+      <input type="text" class="form-control" id="mcq_option_d" name="option_d" required>
+    </div>
+    <div class="mb-3">
+      <label for="mcq_correct_answer" class="form-label">Correct Answer (A/B/C/D)</label>
+      <input type="text" maxlength="1" pattern="[ABCDabcd]" class="form-control" id="mcq_correct_answer" name="correct_answer" required>
+    </div>
+    <button type="submit" class="btn btn-warning">Add MCQ Question</button>
+  </form>
+
+  <hr>
+
+  <div class="mb-4">
+    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg">Logout</a>
   </div>
 
-  <div class="col-md-4">
-    <div class="card text-white bg-warning mb-3">
-      <div class="card-header">MCQ Questions</div>
-      <div class="card-body">
-        <h5 class="card-title">-- Total Questions --</h5>
-        <p class="card-text">{{ mcq_count }}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="mb-4">
-  <h4>Recent Activity</h4>
-  <p><em>No recent activity logs available.</em></p>
-</div>
-
-<div class="mb-4">
-  <a href="{{ url_for('logout') }}" class="btn btn-danger btn-lg">Logout</a>
 </div>
 {% endblock %}

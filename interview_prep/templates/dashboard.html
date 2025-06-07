@@ -41,7 +41,11 @@
 
     <div class="mb-3">
         <label for="answer-textarea" class="form-label">Your Answer</label>
-        <textarea id="answer-textarea" name="answer" class="form-control" rows="6" required>{{ answer }}</textarea>
+        <textarea id="answer-textarea" name="answer" class="form-control" rows="6" required
+            onpaste="alert('Pasting is disabled here. Please write your own answer.'); return false;"
+            oncopy="alert('Copying is disabled here. Please write your own answer.'); return false;"
+            oncut="alert('Cutting is disabled here. Please write your own answer.'); return false;"
+        >{{ answer }}</textarea>
     </div>
 
     <button type="submit" class="btn btn-success">Submit Answer</button>

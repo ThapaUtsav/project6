@@ -1,12 +1,34 @@
 {% extends "base.html" %}
 
-{% block title %}MCQ Test Result{% endblock %}
+{% block title %}MCQ Test Results{% endblock %}
 
 {% block content %}
-<a href="{{ url_for('select_test') }}" class="btn btn-secondary">← Go Back to Test Selection</a>
-  <h2>MCQ Test Results</h2>
-  <p>You answered {{ total_answered }} questions.</p>
-  <p>Correct Answers: {{ correct_count }}</p>
-  <p>Your Score: {{ score }}%</p>
-  <a href="{{ url_for('mcq_test') }}" class="btn btn-primary">Try Again</a>
+<a href="{{ url_for('mcq_test', difficulty=selected_difficulty) }}" class="btn btn-secondary mb-3">← Retake Test</a>
+<a href="{{ url_for('select_test') }}" class="btn btn-secondary mb-3">← Back to Test Selection</a>
+
+<h2>MCQ Test Results - Difficulty: {{ selected_difficulty }}</h2>
+
+<div class="card p-4 mb-3">
+  <p><strong>Total Questions:</strong> {{ total_questions }}</p>         
+  <p><strong>Questions Answered:</strong> {{ total_answered }}</p>        
+  <p><strong>Correct Answers:</strong> {{ correct_count }}</p>            
+  <p><strong>Score:</strong> {{ score }}%</p>                            
+</div>
+
+{% if low_answer_warning %}
+  <div class="alert alert-warning">
+    ⚠️ You answered less than half of the questions. Your score might not reflect your full understanding.
+  </div>
+{% endif %}
+
+{% if score == 100 %}
+  <div class="alert alert-success">🎉 Perfect score! Excellent work!</div>
+{% elif score >= 80 %}
+  <div class="alert alert-success">👍 Great job! You have a strong understanding.</div>
+{% elif score >= 50 %}
+  <div class="alert alert-warning">⚠️ Good effort, but there’s room for improvement.</div>
+{% else %}
+  <div class="alert alert-danger">😞 Keep practicing to improve your score.</div>
+{% endif %}
+
 {% endblock %}

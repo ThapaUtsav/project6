@@ -2,12 +2,27 @@
 
 {% block title %}MCQ Test - Page {{ page }}{% endblock %}
 
-{% block content %}<a href="{{ url_for('select_test') }}" class="btn btn-secondary">← Go Back to Test Selection</a>
-<a></a>
+{% block content %}
+<a href="{{ url_for('select_test') }}" class="btn btn-secondary">← Go Back to Test Selection</a>
+
 <h2 class="mb-4">MCQ Test - Page {{ page }} of {{ total_pages }}</h2>
 
+<!-- Difficulty Selection Form -->
+<form method="GET" id="difficulty-form" class="mb-4" style="max-width: 300px;">
+  <label for="difficulty-select" class="form-label">Difficulty</label>
+  <select id="difficulty-select" name="difficulty" class="form-select" onchange="document.getElementById('difficulty-form').submit()">
+    {% for diff in difficulties %}
+      <option value="{{ diff }}" {% if diff == selected_difficulty %}selected{% endif %}>{{ diff }}</option>
+    {% endfor %}
+  </select>
+</form>
 
+<!-- MCQ Questions Form -->
 <form method="POST">
+  <!-- Keep track of current difficulty and page when submitting answers -->
+  <input type="hidden" name="difficulty" value="{{ selected_difficulty }}">
+  <input type="hidden" name="page" value="{{ page }}">
+
   {% for question in questions %}
   <div class="card mb-3">
     <div class="card-body">
