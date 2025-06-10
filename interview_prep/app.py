@@ -10,6 +10,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sentence_transformers import SentenceTransformer, InputExample, losses, util
 from torch.utils.data import DataLoader
 from functools import wraps
+import nltk
+from nltk.corpus import stopwords
+try:
+    STOPWORDS = set(stopwords.words('english'))
+except LookupError:
+    nltk.download('stopwords')
+    STOPWORDS = set(stopwords.words('english'))
+
 
 os.environ["WANDB_DISABLED"] = "true"
 
@@ -119,16 +127,13 @@ def is_plagiarized(user_id, answer, question, threshold=0.85):
 
 #accuracy 
 def process_answer(ref_answer, answer, user_id, question, threshold=0.95):
-    
     embeddings = model.encode([ref_answer, answer], convert_to_tensor=True)
     similarity_score = util.pytorch_cos_sim(embeddings[0], embeddings[1]).item()
     similarity_percentage = int(similarity_score * 100)
 
-    
-    ref_tokens = set(re.findall(r'\w+', ref_answer.lower()))
-    ans_tokens = set(re.findall(r'\w+', answer.lower()))
+    ref_tokens = set(word.lower() for word in re.findall(r'\w+', ref_answer) if word.lower() not in STOPWORDS)
+    ans_tokens = set(word.lower() for word in re.findall(r'\w+', answer) if word.lower() not in STOPWORDS)
 
-    
     if similarity_score >= threshold:
         return (
             "⚠️ Your answer is too similar to the reference. Please write in your own words.",
@@ -137,17 +142,26 @@ def process_answer(ref_answer, answer, user_id, question, threshold=0.95):
             False
         )
 
-    
     ai_warning = False
     if similarity_score >= 0.98 and len(answer.split()) > 30:
         ai_warning = True
+
     ref_word_count = len(ref_answer.split())
     ans_word_count = len(answer.split())
     too_short = ans_word_count < ref_word_count * 0.6
+
     keyword_overlap = len(ans_tokens & ref_tokens)
     overlap_ratio = keyword_overlap / (len(ref_tokens) + 1e-5)
+
     stuffing_penalty = keyword_overlap > 0 and similarity_score < 0.5 and overlap_ratio > 0.5
+
     feedback = []
+
+    
+    if len(ans_tokens) < 3 or answer.lower().strip() in ["yes", "no", "okay", "idk", "i don’t know", "phishing is great", "phishing is god"]:
+        feedback.append("❌ Your answer is too short or lacks relevance. Try explaining in your own words.")
+        star_rating = 1
+        return "\n".join(feedback), similarity_percentage, False, ai_warning
 
     if stuffing_penalty:
         feedback.append("❌ Your answer includes keywords but lacks proper context or explanation.")
@@ -163,10 +177,14 @@ def process_answer(ref_answer, answer, user_id, question, threshold=0.95):
 
     if too_short:
         feedback.append("📉 Your answer is too short compared to the reference. Add more detail.")
+
+    
     missing_words = list(ref_tokens - ans_tokens)
-    if len(missing_words) > 5:
-        feedback.append("🧠 Consider including these key ideas: " + ', '.join(missing_words[:5]))
-    if stuffing_penalty or too_short:
+    if len(missing_words) >= 3:
+        feedback.append("🧠 Consider including key ideas like: " + ', '.join(missing_words[:5]))
+
+    
+    if stuffing_penalty or too_short or len(ans_tokens) < 5:
         star_rating = 1
     elif similarity_percentage >= 90:
         star_rating = 5
@@ -180,6 +198,7 @@ def process_answer(ref_answer, answer, user_id, question, threshold=0.95):
         star_rating = 1
 
     return "\n".join(feedback), similarity_percentage, False, ai_warning
+
 
 
 @app.route('/')
@@ -281,70 +300,69 @@ def dashboard():
 @app.route('/mcq_test', methods=['GET', 'POST'])
 @login_required
 def mcq_test():
+    categories = sorted(mcq_data['Category'].unique())
     difficulties = sorted(mcq_data['Difficulty'].unique())
+
+    selected_category = request.args.get('category', categories[0] if categories else '')
     selected_difficulty = request.args.get('difficulty', difficulties[0] if difficulties else '')
 
-    # Filter questions by difficulty
-    filtered_mcq_questions = [q for q in mcq_questions if q['Difficulty'] == selected_difficulty]
+    filtered_mcq_questions = [q for q in mcq_questions if
+                              (selected_category == '' or q['Category'] == selected_category) and
+                              (selected_difficulty == '' or q['Difficulty'] == selected_difficulty)]
 
     page = int(request.args.get('page', 1))
     total_questions = len(filtered_mcq_questions)
     total_pages = (total_questions + QUESTIONS_PER_PAGE - 1) // QUESTIONS_PER_PAGE
-    page = max(1, min(page, total_pages))  # clamp page number
+    page = max(1, min(page, total_pages))
 
     start_index = (page - 1) * QUESTIONS_PER_PAGE
     end_index = min(start_index + QUESTIONS_PER_PAGE, total_questions)
     questions_to_show = filtered_mcq_questions[start_index:end_index]
 
-    # Initialize answers dictionary in session if not present
     if 'mcq_answers' not in session:
         session['mcq_answers'] = {}
 
     if request.method == 'POST':
-        # Save answers from current page into session
         form_answers = {k: v for k, v in request.form.items() if k.startswith('answer-')}
         session['mcq_answers'].update(form_answers)
-        session.modified = True  # mark session as modified to save changes
+        session.modified = True
 
+        form_category = request.form.get('category', selected_category)
         form_difficulty = request.form.get('difficulty', selected_difficulty)
 
         if 'next' in request.form:
             next_page = min(page + 1, total_pages)
-            return redirect(url_for('mcq_test', page=next_page, difficulty=form_difficulty))
-
+            return redirect(url_for('mcq_test', page=next_page, category=form_category, difficulty=form_difficulty))
         elif 'prev' in request.form:
             prev_page = max(page - 1, 1)
-            return redirect(url_for('mcq_test', page=prev_page, difficulty=form_difficulty))
-
+            return redirect(url_for('mcq_test', page=prev_page, category=form_category, difficulty=form_difficulty))
         elif 'submit' in request.form:
-            # On submit, calculate score using all saved answers in session
-            answers = session.pop('mcq_answers', {})  # Remove answers from session after submit
-
+            answers = session.pop('mcq_answers', {})
             correct_count = 0
             total_answered = 0
-
-            # Iterate over all filtered questions (not just current page)
             for i, question in enumerate(filtered_mcq_questions):
                 key = f"answer-{i}"
                 if key in answers and answers[key].strip():
                     total_answered += 1
-                    if answers[key].strip().upper() == question['CorrectOption'].strip().upper():
-
+                    
+                    correct_answer = question.get('CorrectAnswer') or question.get('Correct Answer')
+                    if correct_answer and answers[key].strip().upper() == correct_answer.strip().upper():
                         correct_count += 1
-
             score = round((correct_count / total_answered) * 100, 2) if total_answered > 0 else 0
-
             return render_template("mcq_result.html",
-                                   total_answered=total_answered,
-                                   correct_count=correct_count,
-                                   score=score,
-                                   selected_difficulty=form_difficulty)
+                       total_questions=total_questions,
+                       total_answered=total_answered,
+                       correct_count=correct_count,
+                       score=score,
+                       selected_category=form_category,
+                       selected_difficulty=form_difficulty)
 
-    # Pre-fill answers on the current page from session (if any)
     answers = session.get('mcq_answers', {})
 
     return render_template('mcq_test.html',
+                           categories=categories,
                            difficulties=difficulties,
+                           selected_category=selected_category,
                            selected_difficulty=selected_difficulty,
                            questions=questions_to_show,
                            page=page,
@@ -423,7 +441,6 @@ def add_mcq_question():
 @login_required
 @admin_required
 def admin():
-    # admin dashboard view
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*) FROM users")

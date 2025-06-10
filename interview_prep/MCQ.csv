@@ -40,3 +40,77 @@ What is the output of this code snippet: print("Hello, world!".upper())?,hello, 
 Which data type would you use to store a numeric value that does not change?,Variable,Constant,int,float,B,Python,Easy
 Which library is commonly used for data visualization in Python?,TensorFlow,Matplotlib,Scikit-learn,PyTorch,B,Python,Medium
 What does the term “CSV” stand for in the context of data handling in Python?,Comma-Separated Values,Centralized System for Values,Complex Structured Variables,Computerized Storage of Variables,A,Python,Medium
+What does 'PEP' stand for in Python?,Python Enhancement Proposal,Programming Extension Protocol,Python Execution Process,Program Execution Plan,A,Python,Medium
+Which of these sorting algorithms is NOT stable?,Merge Sort,Quick Sort,Bubble Sort,Insertion Sort,B,Algorithms,Medium
+Which of the following is NOT a NoSQL database?,Cassandra,MongoDB,MySQL,Redis,C,Databases,Medium
+What is the default port number for HTTPS?,80,443,21,25,B,Networking,Easy
+In Python, what is the output of bool('False')?,False,True,None,Error,B,Python,Medium
+Which method removes and returns the last element from a list in Python?,pop(),remove(),del(),discard(),A,Python,Easy
+What is the purpose of a foreign key in a database?,Uniquely identify a record,Establish relationship between tables,Store data,Create a primary key,B,Databases,Easy
+What data structure does a Breadth-First Search (BFS) algorithm use?,Stack,Queue,Linked List,Tree,B,Algorithms,Medium
+Which of the following is a dynamic programming algorithm?,Binary Search,Merge Sort,Fibonacci sequence calculation,Quick Sort,C,Algorithms,Medium
+What is the output of print(type([])) in Python?,<class 'list'>,<class 'tuple'>,<class 'dict'>,<class 'set'>,A,Python,Easy
+Which HTTP status code indicates 'Not Found'?,200,301,404,500,C,Web,Easy
+What is the time complexity of accessing an element in a hash table?,O(1),O(n),O(log n),O(n log n),A,Data Structures,Medium
+In Java, which keyword is used to inherit a class?,extends,implements,inherits,super,A,Java,Medium
+What is the main purpose of CSS?,Structure the webpage,Style the webpage,Add functionality to webpage,Store data,B,Web,Easy
+Which SQL command is used to remove a table from a database?,DROP,DELETE,REMOVE,TRUNCATE,A,SQL,Easy
+What does JSON stand for?,JavaScript Object Notation,Java Standard Output Notation,Java Serialized Object Notation,JavaScript Online Notation,A,Web,Easy
+Which of the following is NOT a valid Python variable name?,my_var,2var,var_2,_var,B,Python,Easy
+What will print(10 // 3) output in Python?,3.33,3,4,3.0,B,Python,Easy
+Which data type is immutable in Python?,List,Dictionary,String,Set,C,Python,Medium
+What is the space complexity of Merge Sort?,O(n),O(log n),O(n log n),O(1),A,Algorithms,Medium
+Which protocol is primarily used for sending emails?,FTP,SMTP,HTTP,DNS,B,Networking,Easy
+In HTML, which tag is used to create a hyperlink?,<a>,<link>,<href>,<url>,A,Web,Easy
+What keyword is used to define a constant in Python?,const,final,immutable,None,D,Python,Medium
+Which of these is NOT an SQL aggregate function?,SUM,COUNT,JOIN,AVG,C,SQL,Medium
+What is the output of print(0.1 + 0.2 == 0.3) in Python?,True,False,Error,None of the above,B,Python,Medium
+Which of the following is NOT an OOP principle?,Encapsulation,Polymorphism,Inheritance,Compilation,D,OOP,Medium
+Which Python module is used for regular expressions?,regex,re,regexp,pyregex,B,Python,Medium
+Which algorithm technique divides the problem into subproblems?,Divide and Conquer,Dynamic Programming,Greedy,Brute Force,A,Algorithms,Medium
+What is the default scope of variables in Python functions?,Global,Local,Nonlocal,Static,B,Python,Medium
+Which of the following is a non-primitive data type in Java?,int,char,String,double,C,Java,Easy
+What is the main function of a DNS server?,Host websites,Convert domain names to IP addresses,Store files,Send emails,B,Networking,Easy
+Which of the following is NOT a NoSQL database type?,Document Store,Graph Store,Relational Store,Key-Value Store,C,Databases,Medium
+Which Python function converts a string to an integer?,int(),str(),float(),bool(),A,Python,Easy
+What is the output of print(len("Hello\nWorld"))?,11,10,12,5,A,Python,Medium
+Which of the following is NOT a valid Python loop?,for,while,repeat,do-while,C,Python,Medium
+In JavaScript, which symbol is used for comments?,#,//,<!--,**,B,Web,Easy
+What does CSS stand for?,Cascading Style Sheets,Computer Style Sheets,Creative Style Sheets,Colorful Style Sheets,A,Web,Easy
+Which keyword is used to handle exceptions in Python?,try,catch,throw,except,A,Python,Medium
+Which sorting algorithm is best for nearly sorted data?,Insertion Sort,Quick Sort,Merge Sort,Heap Sort,A,Algorithms,Medium
+Which HTTP status code represents 'Internal Server Error'?,400,401,403,500,D,Web,Easy
+What is the binary equivalent of decimal 15?,1111,1110,1011,1100,A,Math,Easy
+Which SQL keyword is used to sort the result set?,ORDER BY,GROUP BY,WHERE,HAVING,A,SQL,Easy
+Which operator is used for exponentiation in Python?,^,**,pow(),%,B,Python,Easy
+What is the output of print(bool(0)) in Python?,True,False,None,Error,B,Python,Easy
+Which Python keyword is used to create an anonymous function?,def,lambda,func,anonymous,B,Python,Easy
+Which of the following is NOT a relational database?,MySQL,Oracle,MongoDB,PostgreSQL,C,Databases,Medium
+Which data structure is used to implement recursion?,Stack,Queue,Heap,Graph,A,Algorithms,Medium
+Which of the following is NOT a valid Python data type?,int,float,char,bool,C,Python,Easy
+What does the 'continue' statement do in Python loops?,Exits the loop,Skips the current iteration,Ends the program,Repeats the loop,B,Python,Easy
+Which HTTP method is used to update a resource?,POST,PUT,GET,DELETE,B,Web,Easy
+Which Python library is commonly used for machine learning?,Pandas,Scikit-learn,Matplotlib,Numpy,B,Python,Medium
+What is the output of print(5 & 3) in Python?,7,1,5,3,B,Python,Medium
+Which of the following is NOT an operating system?,Linux,Windows,Android,Google Chrome,D,General,Easy
+What does SQL stand for?,Structured Query Language,Standard Query Language,Simple Query Language,Sequential Query Language,A,SQL,Easy
+Which of these is a mutable data type in Python?,tuple,list,string,int,B,Python,Easy
+What does the 'is' operator check in Python?,Value equality,Reference equality,Both A and B,None,B,Python,Medium
+What is the output of print([1,2,3] + [4,5,6])?,[1,2,3,4,5,6],[5,7,9],Error,[1,2,3,4,5],A,Python,Easy
+Which data structure uses FIFO?,Stack,Queue,Linked List,Tree,B,Data Structures,Easy
+Which of the following is NOT a primitive data type in C?,int,char,float,array,D,C,Programming,Medium
+Which function is used to read a line from a file in Python?,read(),readline(),readlines(),input(),B,Python,Easy
+What is the result of 5 % 2 in Python?,0,1,2,3,B,Python,Easy
+Which HTTP header is used to specify the content type?,Content-Type,Accept,Authorization,User-Agent,A,Web,Medium
+Which of these is a Python tuple?,[1,2,3],(1,2,3),{1,2,3},<1,2,3>,B,Python,Easy
+What is the result of 2 ** 4 in Python?,8,16,32,64,B,Python,Easy
+Which Python keyword is used to import modules?,include,import,using,require,B,Python,Easy
+Which data type is used to represent true or false values?,int,bool,string,float,B,Python,Easy
+Which of the following is a client-server protocol?,HTTP,FTP,DNS,SMTP,A,Networking,Easy
+What is the function of 'git commit'?,Upload code to server,Save changes to local repo,Create a new branch,Merge branches,B,General,Medium
+Which of these is NOT a Python keyword?,lambda,yield,loop,async,C,Python,Easy
+Which of the following commands is used to create a virtual environment in Python?,python -m venv env,virtualenv create env,python env create,venv create env,A,Python,Medium
+What is the output of print('abc' * 3)?,abcabcabc,abc abc abc,abc3,Error,A,Python,Easy
+What is the correct way to declare an array in Java?,int arr[] = new int[5];,int arr = new int[5];,array arr[] = new array[5];,int arr = array(5);,A,Java,Medium
+Which of these is NOT a valid CSS selector?,.class,#id,element,$element,D,Web,Medium
+What is the main purpose of the OSI model?,Data encryption,Network standardization,Software development,Hardware design,B,Networking,Medium

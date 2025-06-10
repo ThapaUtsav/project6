@@ -7,19 +7,33 @@
 
 <h2 class="mb-4">MCQ Test - Page {{ page }} of {{ total_pages }}</h2>
 
-<!-- Difficulty Selection Form -->
-<form method="GET" id="difficulty-form" class="mb-4" style="max-width: 300px;">
-  <label for="difficulty-select" class="form-label">Difficulty</label>
-  <select id="difficulty-select" name="difficulty" class="form-select" onchange="document.getElementById('difficulty-form').submit()">
-    {% for diff in difficulties %}
-      <option value="{{ diff }}" {% if diff == selected_difficulty %}selected{% endif %}>{{ diff }}</option>
-    {% endfor %}
-  </select>
+<!-- Filters Form: Category and Difficulty -->
+<form method="GET" id="filters-form" class="mb-4" style="max-width: 350px;">
+  <div class="mb-3">
+    <label for="category-select" class="form-label">Category</label>
+    <select id="category-select" name="category" class="form-select" onchange="document.getElementById('filters-form').submit()">
+      <option value="">All Categories</option>
+      {% for cat in categories %}
+        <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="difficulty-select" class="form-label">Difficulty</label>
+    <select id="difficulty-select" name="difficulty" class="form-select" onchange="document.getElementById('filters-form').submit()">
+      <option value="">All Difficulties</option>
+      {% for diff in difficulties %}
+        <option value="{{ diff }}" {% if diff == selected_difficulty %}selected{% endif %}>{{ diff }}</option>
+      {% endfor %}
+    </select>
+  </div>
 </form>
 
 <!-- MCQ Questions Form -->
 <form method="POST">
-  <!-- Keep track of current difficulty and page when submitting answers -->
+  <!-- Keep track of current category, difficulty and page when submitting answers -->
+  <input type="hidden" name="category" value="{{ selected_category }}">
   <input type="hidden" name="difficulty" value="{{ selected_difficulty }}">
   <input type="hidden" name="page" value="{{ page }}">
 
